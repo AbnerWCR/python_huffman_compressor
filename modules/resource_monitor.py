@@ -170,7 +170,8 @@ def execution_monitor(func: Callable) -> Callable:
             "Tamanho do arquivo .zip": result_dict.get("zip_file_size"),
             "Taxa de compressão": result_dict.get("compression_ratio"),
             "Chunk de leitura (MB)": result_dict.get("chunk_size"),
-            "Max Workers (threads)": result_dict.get("max_workers")
+            "Max Workers (threads)": result_dict.get("max_workers"),
+            "File": result_dict.get("file_name")
         })
 
         return result

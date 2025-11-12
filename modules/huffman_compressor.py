@@ -6,11 +6,13 @@ import os
 from models.huffman_node import HuffmanNode
 import gc
 from typing import Dict
+import psutil
 
 class HuffmanCompressor:
-    def __init__(self):
+    def __init__(self, memory_threshold_percent: float = 70.0):
         self.codes = {}
         self.reverse_mapping = {}
+        self.memory_threshold_percent = memory_threshold_percent
 
     def _generate_codes_recursive(self, node, current_code):
         if node is None: return
@@ -73,6 +75,26 @@ class HuffmanCompressor:
         """Worker for parallel counting (top-level for pickling)."""
         return dict(Counter(chunk))
     
+    def _get_available_memory_percent(self) -> float:
+        """Get percentage of available memory."""
+        return psutil.virtual_memory().percent
+
+    def _get_available_memory_mb(self) -> float:
+        """Get available memory in MB."""
+        return psutil.virtual_memory().available / (1024 * 1024)
+    
+
+    def _should_process_chunk(self) -> bool:
+        """Check if we have enough memory to process the next chunk."""
+        current_percent = self._get_available_memory_percent()
+        available_mb = self._get_available_memory_mb()
+        
+        if current_percent > self.memory_threshold_percent:
+            return True
+        
+        print(f"⚠️  Memória disponível: {available_mb:.2f} MB ({100 - current_percent:.2f}% livre)")
+        return False
+    
     def _get_bytearray_from_bits(self, bits: str) -> bytearray:
         """Convert a bit string whose length is a multiple of 8 into a bytearray."""
         b = bytearray()
@@ -92,11 +114,18 @@ class HuffmanCompressor:
         # except FileNotFoundError:
         #     print(f"Erro: Arquivo '{input_file_path}' não encontrado.")
         #     return
+
+        current_chunk_size = chunk_chars
         
         with open(input_file_path, 'r', encoding='utf-8') as f:
             try:
                 while True:
-                    chunk = f.read(1_000_000)
+                    if not self._should_process_chunk():
+                        # Reduce chunk size if memory is low
+                        current_chunk_size = max(100_000, current_chunk_size // 2)
+                        print(f"📉 Reduzindo tamanho do chunk para: {current_chunk_size:,} caracteres")
+                    
+                    chunk = f.read(current_chunk_size)
                     if not chunk:
                         break
                     part = self._count_chunk_text(chunk)
@@ -127,7 +156,12 @@ class HuffmanCompressor:
 
         with open(input_file_path, 'r', encoding='utf-8') as f:
             while True:
-                chunk = f.read(1_000_000)
+                if not self._should_process_chunk():
+                    # Reduce chunk size if memory is low
+                    current_chunk_size = max(100_000, current_chunk_size // 2)
+                    print(f"📉 Reduzindo tamanho do chunk para: {current_chunk_size:,} caracteres")
+                
+                chunk = f.read(current_chunk_size)
                 if not chunk:
                     break
                 # Map characters to codes

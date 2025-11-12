@@ -33,7 +33,8 @@ def pipeline_compact(arquivo_original, arquivo_zip):
             "zip_file_size": f"{tamanho_compactado} bytes",
             "compression_ratio": f"{taxa:.2f}%",
             "chunk_size": 1_000_000 / 1024 / 1024,
-            "max_workers": 1
+            "max_workers": 1,
+            "file_name": arquivo_original
         }
 
 @execution_monitor
@@ -64,7 +65,8 @@ def pipeline_compact_parallel(arquivo_original, arquivo_zip, chunk_chars, max_wo
             "zip_file_size": f"{tamanho_compactado} bytes",
             "compression_ratio": f"{taxa:.2f}%",
             "chunk_size": chunk_chars,
-            "max_workers": max_workers
+            "max_workers": max_workers,
+            "file_name": arquivo_original
         }
 
 def pipeline_descompact_parallel(arquivo_original, arquivo_descompactado):
@@ -152,15 +154,15 @@ if __name__ == "__main__":
 
     files_path = "files"
 
-    # print("-"*15 + "Execution single" + "-"*15)
-    # execution_single_thread(files_path)
+    print("-"*15 + "Execution single" + "-"*15)
+    execution_single_thread(files_path)
 
-    print("-"*15 + "Execution parallel" + "-"*15)
-    print(f"Max Cpu count {max(1, (os.cpu_count() or 1))}")
-    for i in range(2, max(1, (os.cpu_count() or 1))):
-        # for chunk in range(500, 1_500, 500):
-        #     print(f"Threads: {i} -- Chunk: {chunk}")
-        execution_huffman_parallel_compressor(files_path, 1_000_000, i)
+    # print("-"*15 + "Execution parallel" + "-"*15)
+    # print(f"Max Cpu count {max(1, (os.cpu_count() or 1))}")
+    # for i in range(2, max(1, (os.cpu_count() or 1))):
+    #     # for chunk in range(500, 1_500, 500):
+    #     #     print(f"Threads: {i} -- Chunk: {chunk}")
+    #     execution_huffman_parallel_compressor(files_path, 1_000_000, i)
 
 
     # execution_single_thread(arquivo_original, arquivo_zip)
