@@ -1,0 +1,5 @@
+files/*.txt
+data/compress_files/*.zip
+data/descompress_files.txt
+
+.venv

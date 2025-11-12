@@ -1,0 +1,15 @@
+Função;Tempo de Execução (Wall Time);Pico de Uso de CPU (por 1 core);Pico de Memória (RSS);Tempo Total de CPU (User+System);Taxa de CPU-Bound (Normalizada);Trocas de Contexto Voluntárias;Trocas de Contexto Involuntárias;Tamanho do arquivo original;Tamanho do arquivo .zip;Taxa de compressão;Chunk de leitura (MB);Max Workers (threads)
+pipeline_compact;2.4163 s;121.30 %;142.55 MB;2.4200 s;6.26%;331;19;26721702 bytes;15331913 bytes;42.62%;0.95367431640625;1
+pipeline_compact;16.3266 s;145.10 %;248.69 MB;16.3300 s;6.25%;3700;342;175197877 bytes;101449719 bytes;42.09%;0.95367431640625;1
+pipeline_compact;27.9150 s;158.00 %;488.92 MB;27.9300 s;6.25%;6167;942;293772342 bytes;171268313 bytes;41.70%;0.95367431640625;1
+pipeline_compact;277.7571 s;178.80 %;3568.52 MB;277.8200 s;6.25%;63127;6050;3065270526 bytes;1785257427 bytes;41.76%;0.95367431640625;1
+pipeline_compact;603.1683 s;179.60 %;7450.99 MB;603.4500 s;6.25%;134641;11963;6572434406 bytes;3819430331 bytes;41.89%;0.95367431640625;1
+pipeline_compact_parallel;3.6525 s;111.50 %;710.42 MB;2.1100 s;3.61%;637;16;26721702 bytes;15331913 bytes;42.62%;500;2
+pipeline_compact_parallel;19.2573 s;272.80 %;3825.15 MB;14.7100 s;4.77%;3847;216;175197877 bytes;101449719 bytes;42.09%;500;2
+pipeline_compact_parallel;32.6045 s;293.50 %;6289.39 MB;25.0100 s;4.79%;6385;475;293772342 bytes;171268313 bytes;41.70%;500;2
+pipeline_compact_parallel;290.8809 s;1210.80 %;13520.58 MB;266.1200 s;5.72%;89319;5254;3065270526 bytes;1785257427 bytes;41.76%;500;2
+pipeline_compact_parallel;645.6034 s;6923.60 %;13801.93 MB;597.5700 s;5.78%;239318;11042;6572434406 bytes;3819430331 bytes;41.89%;500;2
+pipeline_compact_parallel;3.8164 s;123.30 %;628.44 MB;2.0100 s;3.29%;861;20;26721702 bytes;15331913 bytes;42.62%;1000;2
+pipeline_compact_parallel;19.5392 s;280.50 %;3790.71 MB;14.9200 s;4.77%;8992;186;175197877 bytes;101449719 bytes;42.09%;1000;2
+pipeline_compact_parallel;33.0264 s;290.90 %;6254.11 MB;25.1100 s;4.75%;6925;327;293772342 bytes;171268313 bytes;41.70%;1000;2
+pipeline_compact_parallel;388.2525 s;2430.70 %;14153.79 MB;291.4600 s;4.69%;1079779;5783;3065270526 bytes;1785257427 bytes;41.76%;1000;2
