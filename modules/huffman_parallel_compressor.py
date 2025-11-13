@@ -7,6 +7,7 @@ import psutil
 from models.huffman_node import HuffmanNode
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from typing import Dict
+import gc
 
 def _count_chunk_text(chunk: str) -> Dict[str, int]:
     """Worker for parallel counting (top-level for pickling)."""
@@ -184,9 +185,15 @@ class HuffmanParallelCompressor:
             bit_buffer += '0' * extra_padding
         if bit_buffer:
             out_bytes.extend(self._get_bytearray_from_bits(bit_buffer))
+        
+        del bit_buffer
+        gc.collect()
 
         # Prepend single padding info byte
         final_data = bytes([extra_padding]) + bytes(out_bytes)
+        del extra_padding
+        del out_bytes
+        gc.collect()
 
         # 5) Write ZIP with header and data
         print("Salvando arquivo comprimido...")
